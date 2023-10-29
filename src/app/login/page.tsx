@@ -25,7 +25,7 @@ export default function Login() {
                 target="_blank"
                 rel="noopener"
               >
-                Read more
+                Read mor
               </a>
               .
             </div>
