@@ -37,7 +37,7 @@ export default function LoginForm() {
         console.log(resp);
         toast(resp.statusText)
       })
-      .catch((error) => console.log('error', error));
+      .catch((error) => toast.error(error.message));
   };
 
   return (
