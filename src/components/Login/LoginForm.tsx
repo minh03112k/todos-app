@@ -7,8 +7,7 @@ import { Checkbox } from '@nextui-org/checkbox';
 import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
 import { useState } from 'react';
-import { authApi } from '@/api/auth';
-import { toast } from "react-toastify";
+import { useMutateLoginUser } from '@/hooks/auth';
 
 export default function LoginForm() {
   const [loginForm, setLoginForm] = useState({
@@ -16,7 +15,7 @@ export default function LoginForm() {
     password: '',
   });
 
-  const { username, password } = loginForm;
+  const { mutate, isPending } = useMutateLoginUser();
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -26,17 +25,7 @@ export default function LoginForm() {
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    const params = {
-      username: username,
-      password: password,
-    };
-
-    authApi
-      .login(params)
-      .then((resp) => {
-        toast(resp.statusText)
-      })
-      .catch((error) => toast.error(error.message));
+    mutate(loginForm);
   };
 
   return (
@@ -70,7 +59,7 @@ export default function LoginForm() {
           onChange={handleChange}
         />
         <Checkbox size='sm'>Remember me for 2 weeks</Checkbox>
-        <Button color='secondary' onClick={handleSubmit}>
+        <Button isLoading={isPending} color='secondary' onClick={handleSubmit}>
           Sign in
         </Button>
         <Link
