@@ -15,7 +15,7 @@ export default function LoginForm() {
     password: '',
   });
 
-  const { mutate, isPending } = useMutateLoginUser();
+  const { mutate, isPending, error, isError } = useMutateLoginUser();
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -62,6 +62,9 @@ export default function LoginForm() {
         <Button isLoading={isPending} color='secondary' onClick={handleSubmit}>
           Sign in
         </Button>
+
+        {isError && <p className='text-danger text-small'>{error.message}</p>}
+
         <Link
           href='#'
           underline='always'
