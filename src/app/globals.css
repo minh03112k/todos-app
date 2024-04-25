@@ -2,31 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
-}
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --foreground-rgb: 255, 255, 255;
-        --background-start-rgb: 0, 0, 0;
-        --background-end-rgb: 0, 0, 0;
-    }
-}
-
-body {
-    color: #333;
-    background: linear-gradient(to bottom, transparent,
-    rgb(var(--background-end-rgb))
-    ) rgb(var(--background-start-rgb));
-}
-
-
-body input:focus-visible {
-    outline: none;
-}
 
 .login_main {
     display: flex;
@@ -35,7 +11,7 @@ body input:focus-visible {
     min-height: 100vh;
     box-sizing: border-box;
     padding: 64px;
-    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.192) 42.93%, rgba(0, 0, 0, 0.64) 84.6%), url(/images/bg-login.jpg);
+    background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.192) 42.93%, rgba(0, 0, 0, 0.64) 84.6%), url('../assets/images/background/bg-login.jpg');
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-size: cover;
