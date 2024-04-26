@@ -6,30 +6,13 @@ import { RiLockPasswordLine } from 'react-icons/ri';
 import { Checkbox } from '@nextui-org/checkbox';
 import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
-import { useState } from 'react';
-import { useMutateLoginUser } from '@/hooks/auth';
+import { useLoginForm } from '@/hooks/authCustomHooks';
 
 export default function LoginForm() {
-  const [loginForm, setLoginForm] = useState({
-    username: '',
-    password: '',
-  });
-
-  const { mutate, isPending, error, isError } = useMutateLoginUser();
-
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setLoginForm({ ...loginForm, [name]: value });
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-
-    mutate(loginForm);
-  };
+  const { register, handleSubmit, errors: formErrors, onSubmit, isPending, error: requestError, isError } = useLoginForm();
 
   return (
-    <form className=''>
+    <form className='' onSubmit={handleSubmit(onSubmit)}>
       <div className='text-center mb-8 text-base leading-6'>
         <h1 className='text-3xl font-medium text-[#622A75] mb-4'>
           Sign in to Todos App
@@ -45,25 +28,25 @@ export default function LoginForm() {
           isRequired
           variant='underlined'
           type='username'
-          name='username'
           placeholder='Username'
-          onChange={handleChange}
+          {...register("username", { required: true })}
         />
         <Input
           startContent={<RiLockPasswordLine />}
           isRequired
           variant='underlined'
           type='password'
-          name='password'
+          {...register("password")}
           placeholder='Password'
-          onChange={handleChange}
+          isInvalid={!!formErrors.password}
+          errorMessage={formErrors.password?.message}
         />
         <Checkbox size='sm'>Remember me for 2 weeks</Checkbox>
-        <Button isLoading={isPending} color='secondary' onClick={handleSubmit}>
+        <Button isLoading={isPending} color='secondary' type='submit'>
           Sign in
         </Button>
 
-        {isError && <p className='text-danger text-small'>{error.message}</p>}
+        {isError && <p className='text-danger text-small'>{requestError?.message}</p>}
 
         <Link
           href='#'
