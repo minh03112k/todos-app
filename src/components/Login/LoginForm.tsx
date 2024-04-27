@@ -7,9 +7,17 @@ import { Checkbox } from '@nextui-org/checkbox';
 import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
 import { useLoginForm } from '@/hooks/authCustomHooks';
+import { AxiosError } from 'axios';
 
 export default function LoginForm() {
-  const { register, handleSubmit, errors: formErrors, onSubmit, isPending, error: requestError, isError } = useLoginForm();
+  const {
+    register,
+    handleSubmit,
+    errors: formErrors,
+    onSubmit, isPending,
+    error: requestError,
+    isError,
+  } = useLoginForm();
 
   return (
     <form className='' onSubmit={handleSubmit(onSubmit)}>
@@ -46,7 +54,7 @@ export default function LoginForm() {
           Sign in
         </Button>
 
-        {isError && <p className='text-danger text-small'>{requestError?.message}</p>}
+        {isError && <p className='text-danger text-small'>{requestError instanceof AxiosError ? requestError?.response?.data?.message : requestError?.message}</p>}
 
         <Link
           href='#'
