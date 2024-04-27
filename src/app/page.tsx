@@ -46,6 +46,17 @@ export default function Home() {
     setBlocks(updatedBlocksPosition);
   }
 
+  const handleMoveDownPosition = (id: number) => {
+    const updatedBlocksPosition = blocks.map((block) => {
+      if (block.id === id) {
+        return {...block, position: Math.max(0, block.position - 1)}
+      }
+      return block;
+    })
+
+    setBlocks(updatedBlocksPosition);
+  }
+
   return (
     <main className="flex min-h-screen flex-col p-24 items-center gap-8 item">
       <div className="flex flex-row gap-4">
@@ -60,11 +71,11 @@ export default function Home() {
       <div className="flex flex-row w-full">
         {
           Array.from({ length: 3 }, (_, index) => (
-            <div key={index} className='w-full flex items-center flex-col border-2 border-blue-400 p-8 mx-4 rounded-2xl shadow-xl'>
+            <div key={index} className='w-full flex items-center flex-col border-2 border-gray-400 p-8 mx-4 rounded-2xl shadow-lg shadow-gray-300'>
               <p className='items-center text-2xl font-bold'>{index === 0 ? 'To Do' : index === 1 ? 'In Progress' : 'Done'}</p>
               {blocks.filter((block) => block.position === index).map((block) => (
                 <div key={block.id} className='w-full border-1 border-amber-900 p-4 rounded-2xl flex items-center my-8 '>
-                  <button><FaArrowLeft /></button>
+                  <button onClick={() => handleMoveDownPosition(block.id)}><FaArrowLeft /></button>
                   <div className='flex flex-row justify-between items-center w-full mx-8'>
                     <div>
                       <p>{block.content}</p>

@@ -20,13 +20,13 @@ export const useLoginForm = () => {
     password: yup.string().min(6).required(),
   }).required();
 
-  const { mutate, isPending, error, isError } = useMutateLoginUser();
+  const { mutate: login, isPending, error, isError, data: loginRes, isSuccess } = useMutateLoginUser();
 
   const { register, handleSubmit, formState: { errors: validationErrors } } = useForm({
     resolver: yupResolver(schema)
   });
 
-  const onSubmit = (data: ILoginForm) => mutate(data);
+  const onSubmit = (data: ILoginForm) => login(data);
 
-  return { register, handleSubmit, errors: validationErrors, onSubmit, isPending, error, isError };
+  return { register, handleSubmit, errors: validationErrors, onSubmit, isPending, error, isError, loginRes, isSuccess };
 };

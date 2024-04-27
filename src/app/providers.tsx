@@ -5,6 +5,8 @@ import { NextUIProvider } from '@nextui-org/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import 'react-toastify/dist/ReactToastify.css';
+import ToastProvider from '@/app/toast.provider';
 
 function makeQueryClient() {
   return new QueryClient({
@@ -44,7 +46,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <NextUIProvider>
-        {children}
+        <ToastProvider>
+          {children}
+        </ToastProvider>
       </NextUIProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
