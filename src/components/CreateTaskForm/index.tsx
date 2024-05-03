@@ -31,9 +31,9 @@ export default function CreateTasks() {
             isInvalid={!!errors.tag}
             errorMessage={errors.tag?.message}
           >
-            <SelectItem key="toDo">To Do</SelectItem>
-            <SelectItem key="inProgress">In Progress</SelectItem>
-            <SelectItem key="done">Done</SelectItem>
+            <SelectItem key="1">To Do</SelectItem>
+            <SelectItem key="2">In Progress</SelectItem>
+            <SelectItem key="3">Done</SelectItem>
           </Select>
         </div>
         <Textarea

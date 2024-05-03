@@ -1,12 +1,19 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { INewTask } from '@/interfaces/task.interface';
+import { useMutation } from '@tanstack/react-query';
+import { taskApi } from '@/api/tasks';
 
-interface Task {
-  title: string;
-  tag: string;
-  body: string;
-}
+export const useMutateCreateNewTask = () => {
+  const mutationCreateNewTask = async (props: INewTask) => {
+    return await taskApi.createTask(props);
+  };
+
+  return useMutation({
+    mutationFn: mutationCreateNewTask,
+  });
+};
 
 export const useCreateTaskForm = () => {
   const schema = yup.object({
@@ -15,14 +22,15 @@ export const useCreateTaskForm = () => {
     body: yup.string().required(),
   }).required();
 
+  const { mutate: createNewTask, isPending, error, isError, isSuccess } = useMutateCreateNewTask();
+
   const { register, handleSubmit, formState: { errors: validationErrors } } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: Task) => {
-    alert(JSON.stringify(data));
-    console.log(data);
+  const onSubmit = (data: INewTask) => {
+    createNewTask(data);
   };
 
-  return { register, handleSubmit, errors: validationErrors, onSubmit };
+  return { register, handleSubmit, errors: validationErrors, onSubmit, isPending, error, isError, isSuccess };
 };
