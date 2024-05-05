@@ -10,14 +10,17 @@ export default function CreateTasks() {
   const {
     register,
     handleSubmit,
+    handleCancel,
     errors,
     onSubmit,
+    isPending
   } = useCreateTaskForm();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 container mx-auto h-full">
+      <p className="sm:text-5xl text-4xl font-bold">New Task</p>
       <div className="flex gap-8 flex-col">
-        <div className="flex gap-8 w-full">
+        <div className="flex gap-8 w-full flex-col sm:flex-row">
           <Input
             label="Title"
             type="text"
@@ -40,11 +43,13 @@ export default function CreateTasks() {
           errorMessage={errors.body?.message}
           isInvalid={!!errors.body}
           label="Body"
+          minRows={100}
           {...register('body')}
         />
       </div>
-      <div className="flex w-full justify-end">
-        <Button className="w-fit" color="primary" type="submit">Create Task</Button>
+      <div className="flex w-full justify-end gap-4">
+        <Button variant='bordered' color='secondary' onClick={handleCancel}>Cancel</Button>
+        <Button className="w-fit" color="primary" type="submit" isLoading={isPending}>Create Task</Button>
       </div>
     </form>
   );

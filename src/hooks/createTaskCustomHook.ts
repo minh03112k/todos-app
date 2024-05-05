@@ -24,13 +24,18 @@ export const useCreateTaskForm = () => {
 
   const { mutate: createNewTask, isPending, error, isError, isSuccess } = useMutateCreateNewTask();
 
-  const { register, handleSubmit, formState: { errors: validationErrors } } = useForm({
+  const { register, handleSubmit, reset, formState: { errors: validationErrors } } = useForm({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = (data: INewTask) => {
     createNewTask(data);
+    if (isSuccess) reset();
   };
 
-  return { register, handleSubmit, errors: validationErrors, onSubmit, isPending, error, isError, isSuccess };
+  const handleCancel = () => {
+    reset();
+  }
+
+  return { register, handleSubmit, handleCancel, errors: validationErrors, onSubmit, isPending, error, isError, isSuccess };
 };
