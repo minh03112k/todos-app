@@ -2,16 +2,24 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { INewTask } from '@/interfaces/task.interface';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { taskApi } from '@/api/tasks';
+import { useRouter } from 'next/navigation';
+
 
 export const useMutateCreateNewTask = () => {
+  const router = useRouter();
+
   const mutationCreateNewTask = async (props: INewTask) => {
     return await taskApi.createTask(props);
   };
 
   return useMutation({
     mutationFn: mutationCreateNewTask,
+    onSuccess: () => {
+      console.log('success');
+      router.push('/');
+    }
   });
 };
 
@@ -30,7 +38,6 @@ export const useCreateTaskForm = () => {
 
   const onSubmit = (data: INewTask) => {
     createNewTask(data);
-    if (isSuccess) reset();
   };
 
   const handleCancel = () => {
@@ -39,3 +46,14 @@ export const useCreateTaskForm = () => {
 
   return { register, handleSubmit, handleCancel, errors: validationErrors, onSubmit, isPending, error, isError, isSuccess };
 };
+
+export function useGetTasks() {
+  const fetchAvailableProjects = async () => {
+    return await taskApi.getTasks();
+  };
+
+  return useQuery({
+    queryFn: fetchAvailableProjects,
+    queryKey: ['tasks-list']
+  })
+}
