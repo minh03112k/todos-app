@@ -14,7 +14,8 @@ export default function LoginForm() {
     register,
     handleSubmit,
     errors: formErrors,
-    onSubmit, isPending,
+    onSubmit,
+    isPending,
     error: requestError,
     isError,
   } = useLoginForm();
