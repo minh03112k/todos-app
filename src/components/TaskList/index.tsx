@@ -25,6 +25,7 @@ export default function TaskList() {
             <div key={task.id}>
               <Card
                 fullWidth
+                isBlurred
                 isPressable
                 shadow="lg"
               >

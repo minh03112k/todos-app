@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { redirect } from 'next/navigation';
 
 export const useMutateLoginUser = () => {
   const mutationLoginUser = async (props: ILoginForm) =>{
@@ -11,6 +12,9 @@ export const useMutateLoginUser = () => {
 
   return useMutation({
     mutationFn: mutationLoginUser,
+    onSuccess: () => {
+      redirect('/')
+    }
   })
 }
 
